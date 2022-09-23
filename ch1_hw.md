@@ -65,3 +65,173 @@ R24. An application-layer message is used to communicate with other hosts. The a
 
 R25. A router processes the network layer, link layer, and physical layer. A link-layer switch processes the link layer and physical layer. A host processes all 5 layers.
 
+## Problems
+
+P2. given P packets, it will take the Pth packet (P - 1) L / R + N * L / R
+
+P3. N bits per k seconds at a steady rate.
+
+a. A circuit-switched network would be more appropriate for this application because the application transmits at a steady rate for a long period of time, so dedicated resources for this transmission would increase performance and reliability. The application will also transmit for a long period of time, so it will fully utilize the circuit-switched network's resources because it will be transmitting all of that period.
+
+b. No form of congestion control is needed because the application data rates are less than the capacities of every link, so every link will be able to store and forward the data without the queue ever overflowing given that the application's traffic is the only one in the network.
+
+P4.
+a. 16
+
+b. 8
+
+c. Yes
+
+P5.
+a. 10 cars / 1 car per 12 seconds = 120 seconds at a toll booth
+
+175 km / 100 km per hour = 1.75 hours
+
+end-to-end delay = 1.75 hours + 1.75 hours + 3 * 120 seconds = 3.5 hours + 6 minutes = 216 minutes
+
+b. 8 / 1 car per 12 seconds = 96 seconds at toll booth
+
+end-to-end delay = 3.5 hours * 2 * 96 seconds = 210 minutes and 192 seconds = 213 minutes + 12 seconds
+
+P6.
+a. d prop = m / s
+
+b. d trans = L / R
+
+c. d end-end = d prop + d trans
+
+d. The last bit of the packet is at the start of the link. 
+
+e. The first bit of the packet is at the start of the link.
+
+f. The first bit of the packet is at the start of the link.
+
+g. 600000
+
+P7. R = 10 Mbps, d prop = 10 msec, 56-byte packet
+    56 * 8 / (10 * 1000 * 1000) + 10 msec = 10.0448 msec
+
+P8. R = 10 Mbps, each user requires 200 kbps, each user transmits 10 percent of the time
+
+a. 50 users can be supported using circuit switching
+
+b. 10%
+
+c. P(n) = 120! / [ (120 - n)! * n! ] * (0.1)^n * (0.9)^(120 - n)
+
+d. The probability is vero close to 0 --> 0.
+
+P9.
+
+a. 1 * 10^3 * 10^3 / 100 = 10000
+
+P10.
+
+d end-end = (L / Ri + di / si) sum over i in (1, 2, 3) * 2 d proc
+
+d end-end = 3 (1500 * 8 / 2.5 / 1000 / 1000) s + 10000 * 10^3 / (2.5 * 10^8) s + 2 * 3msec = 57.4 msec
+
+P11. d end-end = L / R + 0.04 sec
+
+P12. 4 packets in q, 1 packet halfway done being transmitted
+
+all packets = 1500 bytes and R = 2.5 Mbps
+
+delay q = [ (6750 * 8) / (2.5 * 1000 * 1000) ] = 0.0216 s
+
+delay q = n * L / R + (L - x) / R
+
+P13.
+
+a. packet n has q delay = (n - 1) * L / R
+
+total q delay = (1 + 2 + 3 + ... + N - 1) * L / R
+              = N(N - 1) * L / R
+
+avr q delay = total q delay / n = (n - 1) * L / R
+
+b. N packets arrive every N * L/R seconds -->
+
+total q delay every N * L/R is N(N - 1) * L / R
+
+avr q delay = N - 1 seconds
+
+
+P14.
+
+a. total delay = I (L/R) (1 - I) + L / R
+b. straight line going through 0 w/ positive slope
+
+P15. total delay = (La/u) (L/u) (1 - La/u) + L/u
+
+P16. N is avr number of packets in buffer + packet being transmitted
+
+a is rate of packets arriving at link
+
+d is avr total delay (q delay plus trans delay) experienced by a packet
+
+N = a * d
+
+101 = a * (20msec + 1 packet / 100 packets per sec)
+a = 3.36666 packet / msec
+
+P17.
+
+a. heterogeneous processing rates
+
+b. no avr queueing delay of dqueue at each node --> repeat
+
+P19. v = k * users^2
+
+n = users
+
+n * (n - 1) messages will be sent
+
+P20. throughput = min(Rs, Rc, R / M)
+
+P21. max = maximum of all the minimum rates of each path
+max = sum of all minimum rates of each path
+
+P22. Probability = (1 - p)^N
+server will retransmit the packet 1 - (1 - p)^n of the time
+
+P23.
+a. inter-arrival time = (L / Rs)
+
+b. It's possible that the second packet queues at the input queue of the second link because the first link has a higher transmission rate, which could lead to the second packet arriving at the input queue of the second link when the first packet is still being transmitted on the second link. T must be L / Rc - L / Rs to allow the second link to finish transmitting before the second packet arrives.
+
+P24. Transmitting alone would take 4 * 10^6 seconds which is about 1111 hours. I would use overnight delivery because 1111 hours way longer than a night (12 hours).
+
+P30. The equivalent of header information added to passengers and baggage as they move down the airline protocol stack are tickets and checking bag receipts to specify their destinations or passports to provide id.
+
+P31. 
+
+a. first packet switch time = 10^6 / (5 * 10^6) = 0.2 sec
+total time = 3 * 0.2 sec = 0.6 sec
+
+b. first packet switch time = 10^4 / (5 * 10^6) = 0.002 sec
+second packet first packet switch time = 0.004 sec
+
+c. 100 packets --> 100th packet arrives at first packet switch at 100 * 0.002 sec 
+
+total time = 0.2 sec + 0.004 sec = 0.204 sec compared to 0.6 sec (almost 3 times as fast)
+
+d. Message segmentation is also used to transport a message more reliably. If we transport a whole message in a packet, it can easily be lost; while if we transmit multiple packets for a single message, it's unlikely that all or most of the packets will be lost.
+
+e. Some drawbacks of message segmentation include increased overhead to keep track of the segments (disassembling and reassembling them) and more complicated systems to manage them.
+
+P33. F bits, 3 links, 2 packet switches between A and B
+no queueing delays bc 0 congestion
+F segmented into S bits each + 80 bits for header
+
+L = 80 + S
+
+R bps
+
+S such that minimizes delay of moving the file from host A to B
+
+delay = (F / S + 1) (80 + S) / R
+
+
+
+
