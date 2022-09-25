@@ -11,33 +11,39 @@ R3. Standards are important for protocols because we need communicators to agree
 
 R4. DSL, Cable (HFC), FTTH, and 5G are home access technologies.
 Ethernet LAN and Wireless LAN are enterprise access technologies (but they're also being increasingly used in homes).
-4G and 5G are wide-area wireless access technologies.
+3G 4G and 5G are wide-area wireless access technologies.
 
-R5. HFC transmission rate is shared among users because the users all transmit over the same coaxial cable, which is a broadcast cable. Collisions are possible in a downstream HFC channel because the channel is shared, so messages to different users can collide on the shared medium.
+R5. HFC transmission rate is shared among users because the users all transmit over the same coaxial cable, which is a broadcast cable. On the downstream channel, packets come from a single source (the head end). Therefore, there are no collisions on the downstream channel.
 
-R7. The transmission rate of Ethernet LANs are ??
+R7. The transmission rate of Ethernet LANs are 10 Mbps, 100 Mbps, 1 Gbps, and 10 Gbps
 
-R8. Physical media Ethernet can run over coaxial cables and copper wires. ??
+R8. Physical media Ethernet can run over twisted pair copper wire. It can also run over fiber optics.
 
-R9. HFC is a transmission rates are shared. DSL transmission rates are dedicated (dedicated phone line). FTTH transmission rates are dedicated (direct fiber). ??
+R9. HFC transmission rates are shared: 24 - 52 Mbps downstream and 3.5 - 16 Mbps upstream. DSL transmission rates are dedicated: 40 Mbps - 1.2 Gbps and 30 Mbps - 100 Mbps. FTTH transmission rates are shared: 10 - 100 Gbps.
 
-R10. The most popular wireless Internet access technologies today are 4G and 5G. 4G transmits at a lower rate than 5G. ??
+R10. The most popular wireless Internet access technologies today are WiFi, 4G, and 5G. 
+
+a. Wifi (802.11): in wireless LAN, wireless users transmit/receive packets to/from a base station (few tens of meters). The base station is typically connected to the wired internet.
+
+b. Wide-area wireless access networks: packets are transmitted over the same wireless infrastructure used for cellular telephony, with the base station being managed by a telecommunications provider. Wireless users within tens of kilometers of the base station get service.
 
 R11. L / R1 + L / R2
 
-R12. Circuit-switched networks dedicate the resources needed for a communication between two or more end systems. As a result, the resources are reserved for the end systems communicating, so this leads to better performance and reliability compared to packet-switched networks (no packet loss). TDM has the advantage of allocating the full bandwidth for a connection over FDM, leading to higher transmission rates.
+R12. (guarantees a certain amount of bandwidth) Circuit-switched networks dedicate the resources needed for a communication between two or more end systems. As a result, the resources are reserved for the end systems communicating, so this leads to better performance and reliability compared to packet-switched networks (no packet loss). TDM has the advantage of allocating the full bandwidth for a connection over FDM, leading to higher transmission rates.
 
 R13. 
 a. 2
-b. There will be no queuing delay because the users together transmit at most 2 Mbps in a 5 second time period.  ???
+b. There is no queuing delay for two users or less because for two useres or less to transmit simultaneously, 2Mbps maximum is required. The available bandwidth is 2Mbps of the shared link, so there will be no queuing delay. If three users transmit simultaneously, the maximum bandwidth required is 3 Mbps, which is more than the 2 Mbps of the link. As a result, the packet switch will only transmit the available bandwidth, putting the rest in a queue to wait.
+c. p = 0.2
+d. p = 0.008 f = 1/125
 
-R14. Two ISPs at the same level of hierarchy peer with eachother to reduce traffic sent to their providers, the upper tier ISPs, by sharing it with the same level ISPs. Doing this will reduce the costs because they have to pay their providers based on their traffic amounts, but peering is often free. IXPs earn money by hosting an area where other ISPs can connect to to peer together. This area is usually a building full of switches.
+R14. Two ISPs at the same level of hierarchy peer with eachother to reduce traffic sent to their providers, the upper tier ISPs, by sending it directly to the same level ISPs. Doing this will reduce the costs because they have to pay their providers based on their traffic amounts, but peering is often free. IXPs earn money by hosting an area where other ISPs can connect to to peer together. This area is usually a building full of switches.
 
 R15. Google's network consists of large, powerful datacenters connected together by their private network, creating a CDN. They peer their CDN with other ISPs directly or at IXPs. They also connect their CDN to tier-1 ISPs. Content providers create their own CDN to restrict traffic in this network to traffic associated with their content. This allows them to provide content quicker and more efficiently. This also saves the company money because most of their traffic is traveling through their CDN rather than ISP providers they'd have to pay.
 
 R16. The delays are processing delay, queuing delay, transmission delay, and propogation delay. Queuing delay is the only variable delay, while the other delays are constant.
 
-R18. It takes a packet d / s seconds to propogate over a link. This delay don't depend on packet length or transmission rate. 10 ms
+R18. It takes a packet d / s seconds to propogate over a link. This delay doesn't depend on packet length or transmission rate. 10 ms
 
 R19. 
 
@@ -47,7 +53,7 @@ c. R2 is the bottleneck now, so the throughput is 100 kbps. The time would be 32
 
 R20. The large file is divided into parts (bits) and packaged with headers specifying the packet's destination. end system A then sends these packets to the edge router to be sent to end system B. The information a router uses to determine an arriving packet's link is the packet's IP address. Packet switching is analogous to driving from one city to another and asking directions along the way because the packets are transmitted to packet switches, where are where the packets "ask" for directions to their destination. The packet switch forwards these packets to the next packet switch in their route, similar to giving instructions to the next place to drive.
 
-R22. ??
+R22. Error control, flow control, segmentation and reassembly, multiplexing, and connection setup. These tasks can be duplicated at different layers (error control).
 
 R23. Application, Transport, Network, Link, Physical.
 
@@ -87,11 +93,11 @@ a. 10 cars / 1 car per 12 seconds = 120 seconds at a toll booth
 
 175 km / 100 km per hour = 1.75 hours
 
-end-to-end delay = 1.75 hours + 1.75 hours + 3 * 120 seconds = 3.5 hours + 6 minutes = 216 minutes
+end-to-end delay = 1.75 hours + 3 * 120 seconds = 111 minutes
 
 b. 8 / 1 car per 12 seconds = 96 seconds at toll booth
 
-end-to-end delay = 3.5 hours * 2 * 96 seconds = 210 minutes and 192 seconds = 213 minutes + 12 seconds
+end-to-end delay = 1.75 hours * 3 * 96 seconds =
 
 P6.
 a. d prop = m / s
@@ -106,20 +112,16 @@ e. The first bit of the packet is at the start of the link.
 
 f. The first bit of the packet is at the start of the link.
 
-g. 600000
+g. 300000 meters
 
 P7. R = 10 Mbps, d prop = 10 msec, 56-byte packet
-    56 * 8 / (10 * 1000 * 1000) + 10 msec = 10.0448 msec
+    56 * 8 / 64 / 1000 + 56 * 8 / (10 * 1000 * 1000) + 10 msec = 10.0518 msec
 
 P8. R = 10 Mbps, each user requires 200 kbps, each user transmits 10 percent of the time
 
 a. 50 users can be supported using circuit switching
 
 b. 10%
-
-c. P(n) = 120! / [ (120 - n)! * n! ] * (0.1)^n * (0.9)^(120 - n)
-
-d. The probability is vero close to 0 --> 0.
 
 P9.
 
@@ -146,23 +148,20 @@ P13.
 a. packet n has q delay = (n - 1) * L / R
 
 total q delay = (1 + 2 + 3 + ... + N - 1) * L / R
-              = N(N - 1) * L / R
+              = N(N - 1) * L / 2R
 
-avr q delay = total q delay / n = (n - 1) * L / R
+avr q delay = total q delay / n = (n - 1) * L / 2R
 
 b. N packets arrive every N * L/R seconds -->
 
-total q delay every N * L/R is N(N - 1) * L / R
+total q delay every = (n - 1) * L / 2R
 
-avr q delay = N - 1 seconds
-
+avr q delay = (n - 1) * L / 2R
 
 P14.
 
-a. total delay = I (L/R) (1 - I) + L / R
-b. straight line going through 0 w/ positive slope
-
-P15. total delay = (La/u) (L/u) (1 - La/u) + L/u
+a. total delay = I L / [ R (1 - I) ] + L / R = L / [R (1 - I)]
+b. x = L / R --> x / (1 - xa)
 
 P16. N is avr number of packets in buffer + packet being transmitted
 
@@ -202,6 +201,12 @@ b. It's possible that the second packet queues at the input queue of the second 
 
 P24. Transmitting alone would take 4 * 10^6 seconds which is about 1111 hours. I would use overnight delivery because 1111 hours way longer than a night (12 hours).
 
+P29.
+
+a. 150 msec = 0.15 sec
+b. R * dprop = 1.5 Mb
+c. x = R * 60 sec = 10 Mbps * 60 s = 600 Mb
+
 P30. The equivalent of header information added to passengers and baggage as they move down the airline protocol stack are tickets and checking bag receipts to specify their destinations or passports to provide id.
 
 P31. 
@@ -216,7 +221,9 @@ c. 100 packets --> 100th packet arrives at first packet switch at 100 * 0.002 se
 
 total time = 0.2 sec + 0.004 sec = 0.204 sec compared to 0.6 sec (almost 3 times as fast)
 
-d. Message segmentation is also used to transport a message more reliably. If we transport a whole message in a packet, it can easily be lost; while if we transmit multiple packets for a single message, it's unlikely that all or most of the packets will be lost.
+d. Without message segmentation, if a whole object has errors in its bits, the whole object needs to be transmitted again.
+
+Smaller objects will have to unfairly wait in the queue if bigger objects are being transmitted.
 
 e. Some drawbacks of message segmentation include increased overhead to keep track of the segments (disassembling and reassembling them) and more complicated systems to manage them.
 
@@ -230,7 +237,7 @@ R bps
 
 S such that minimizes delay of moving the file from host A to B
 
-delay = (F / S + 1) (80 + S) / R
+delay = (F / S + 2) (80 + S) / R
 
 
 
