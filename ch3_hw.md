@@ -30,7 +30,7 @@ R3. The source port number is y and the destination port number is x.
 
 R4. An application developer may choose to run an application over UDP rather than TCP for speed. If they can tolerate dataloss but require low latency, UDP is a good option because there's less overhead in the protocol and its packets are lightweight.
 
-R5. Voice and video traffic are often sent over TCP for the reliability because the transmission rates are high enough using TCP.
+R5. Voice and video traffic are often sent over TCP because many firewalls block UDP traffic.
 
 R6. It is possible for the application to enjoy reliable data transfer using UDP if they employ mechanisms to enforce reliability on the application layer.
 
@@ -38,6 +38,7 @@ R7. Both of these segments will be directed to the same socket because UDP socke
 
 R8. All initial requests go to a welcoming socket at Host C. This welcoming socket creates different sockets for each request, so in the future, subsequent requests directed to those sockets will go straight to those sockets. Both of the sockets share the same port 80 but are differentiated by their source IP and port.
 
+Unlike UDP, TCP connections don't need to get the source IP address from the OS to differentiate messages from different sources because the source IP address is in the socket id.
 
 ## Problems
 
@@ -47,7 +48,7 @@ b. source B, destination S
 c. source S, destination A
 d. source S, destination B
 e. It's possible that the source port number is the same, but then they're differentiated by the source IP addresses.
-f. It's impossible that they're the same ports because they're from different processes on the same host. Processes can't share port numbers.
+f. It's impossible that they're the same ports because they're from different processes on the same host. Processes can't share port numbers on the same host.
 
 P2. The source and destination values are flipped for segments flowing from the server back to the clients' processes.
 
@@ -60,7 +61,7 @@ P3.
 
    check sum = 1s complement = 11010001
 
-   UDP takes the 1s complement so adding up the bits on the receiving side and adding the checksum will yield all 1s in the final sum. If the final sum are all 1s, then it doesn't detect an error. It's possible a 1-bit error will go undetected. For example, if 1 of the bits in the same place value was swapped with another 1 of the bits in the same place value in another number, the sum would be the same. The same logic applies for a two bit error.
+   UDP takes the 1s complement so adding up the bits on the receiving side and adding the checksum will yield all 1s in the final sum. If the final sum are all 1s, then it doesn't detect an error. All 1 bit errors will be detected. Some 2 bit errors will go undetected. For example, if 1 of the bits in the same place value was swapped with another 1 of the bits in the same place value in another number, the sum would be the same.
 
 P4.
 a. 01011100
@@ -71,7 +72,7 @@ a. 01011100
 b. 11011010
   +01100101
   
-  101111111 --> wrap around --> 10000000 --> checksum --> 01111111
+  100111111 --> wrap around --> 01000000 --> checksum --> 10111111
 
 c. if the rightmost bits were flipped
 
