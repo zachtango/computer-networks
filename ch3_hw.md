@@ -40,6 +40,34 @@ R8. All initial requests go to a welcoming socket at Host C. This welcoming sock
 
 Unlike UDP, TCP connections don't need to get the source IP address from the OS to differentiate messages from different sources because the source IP address is in the socket id.
 
+R9. We introduced sequence numbers in our rdt protocols to handle duplicate packets. The problem of duplicate packets arose when we had the sender retransmit packets on receipt of corrupted packets/ACKs. Sequence numbers allow the receiver to distinguish between new packets and old, retransmitted packets. The problem of duplicate packets also arose when we implemented timers, but we had already introduced sequence numbers to handle that.
+
+R10. We introduced timers to handle packet loss, or over-delayed packets. If packets took too long to get to the receiver or were lost, we would never know because we would receive ACKs too late or not receive ACKs at all. Because of this, we introduced timers to have the packets retransmitted after a certain amount of elapsed time so the sender doesn't get stuck waiting for lost or over delayed packets.
+
+R11. A timer is still required in our protocol even if we know the RTT delay because packets can still get lost. Even if we know the RTT delay, if we don't have a timer, we won't be able to retransmit the packets that get lost. We need the timer because packets that are lost will never have their acknowledgement sent to the sender, so the sender will be stuck waiting for the acknowledgement forever unless we have a timer to interrupt its waiting.
+
+R12. Interactive animation
+
+R13. Interactive Animation
+
+R14.
+a. F
+b. F
+c. T
+d. F, sequence number is not determined by segment but by the byte stream --> sequence number prev + payload data size in bytes
+e. T
+f. F, TimeoutInterval = EstimatedRTT (new) + 4 * DevRTT
+    EstimatedRTT (new) = (1 - alpha) EstimatedRTT (old) + alpha * SampleRTT (new) = (1 - alpha) EstimatedRTT (old) + alpha * 1
+    EstimatedRTT (old) could be really small and we could put less weight on the recent SampleRTT by changing alpha, so it's not guaranteed that the current value of TimeoutInterval will be >= 1 sec.
+g. F, The acknowledgement number in this same segment is not related to the sequence number in the segment at all. The acknowledgement number is related to the next sequence number the host is expecting to be sent from the other side of the connection.
+
+R15.
+a. 110 - 90 = 20 bytes
+b. The ack number will be 90 because the first segment was lost.
+
+R16. After the user types 'C', the host ACKs the 'C' and echoes it back. The user's machine then ACKs the receipt of the echoed 'C'. After the user types the letter 'R', two things could happen: the machine piggybacks the ACK of the echoed 'C' onto the datasegment containing 'R' to be sent together to the host, or the machine already sent the ACK of the echoed 'C' so it doesn't get piggybacked onto the datasegment containing 'R'. In the first case, the data segment 'R' gets seq number 43 and ack number 80. In the second case, the ack has already been sent with a seq number 43, so the data segment 'R' gets seq number 44 and ack number 80.
+
+
 ## Problems
 
 P1.
@@ -77,3 +105,7 @@ b. 11011010
 c. if the rightmost bits were flipped
 
 P5. The receiver can't be absolutely certain no bit errors have occurred because a bit error could occur that would yield the same checksum.
+
+P6. Say the sender sends a packet with sequence number 0 to the receiver. The receiver receives this packet correctly and acknowledges it, moving to the next state where it waits for a packet with sequence number 1; however, the acknowledgement is corrupted when the sender receives it. The sender then retransmits the segment with sequence number 0. The receiver receives it but is waiting on sequence number 1, so it sends a NAK packet back. The sender receives the NAK and retransmits the segment with sequence number 0 again. Now, the sender and the receiver are stuck in this loop.
+
+P7. The ACK packets don't require sequence numbers because they do not contain any application data; they're just used as confirmation for the sender to know that its segments were received. If the sender receives duplicate ACKs, it isn't a problem because the duplicate ACKs just let the sender its segments were received.
